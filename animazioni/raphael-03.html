@@ -1,0 +1,35 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="script/jquery-1.8.3.min.js" ></script>
+        <script type="text/javascript" src="script/raphael-min.js" ></script>
+        <script>
+            $(document).ready(
+            function(){
+                // Creates canvas 320 × 200 at 10, 50
+                var paper = Raphael(10, 50, 320, 200);
+                var arrow = paper.path(Raphael.fullfill("M{x},{y}h{dim.width}v{dim.height}h{dim['negative width']}z", {
+                    x: 10,
+                    y: 20,
+                    dim: {
+                        width: 40,
+                        height: 50,
+                        "negative width": -40
+                    }
+                }));                
+                arrow.attr("fill","#ff");
+                
+
+            });
+        </script>
+    </head>
+    <body>
+        <div>TODO write content</div>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="script/jquery-1.8.3.min.js" ></script>
+        <script type="text/javascript" src="script/raphael-min.js" ></script>
+        <script>
+            $(document).ready(
+            function(){
+                // Creates canvas 320 × 200 at 10, 50
+                var paper = Raphael(10, 50, 320, 200);
+                
+                var w = 90, h = 50;
+                var wq = 0.25 * w, wm = 0.5 * w, wt = 3*wq;
+                var hf = h - 10;
+
+                var path2 = [
+                    ["M", 0, wq], ["L",hf,wq], ["L",hf,0], ["L",h,wm],
+                    ["L",hf,w], ["L",hf,wt], ["L",0,wt],["Z"]];
+                var curve = paper.path(path2).attr(
+                    { 
+                        stroke: "hsb(.1, .75, .75)" || Raphael.getColor(), 
+                        "stroke-width": 4, 
+                        "stroke-linecap": "round",
+                        "fill":  "hsb(.8, .75, .75)"
+                    });                
+            });
+        </script>
+    </head>
+    <body>
+        <div>TODO write content</div>
+    </body>
+</html>

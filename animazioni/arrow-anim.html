@@ -1,0 +1,42 @@
+<!DOCTYPE HTML> 
+<html> 
+    <head> 
+        <style> 
+            body { 
+                margin: 0px; 
+                padding: 0px; 
+            } 
+
+            #myCanvas { 
+                border: 1px solid #9C9898; 
+            } 
+        </style> 
+        <script> 
+            function draw_arrow(context, startX, startY, size){ 
+                var arrowX = startX + 0.75*size; 
+                var arrowTopY = startY - 0.707*(0.25*size);  
+                var arrowBottomY = startY + 0.707*(0.25*size); 
+                context.moveTo(startX, startY); 
+                context.lineTo(startX+size, startX); 
+                context.lineTo(arrowX, arrowTopY); 
+                context.moveTo(startX+size, startX); 
+                context.lineTo(arrowX, arrowBottomY); 
+                context.stroke(); 
+            } 
+            window.onload = function(){ 
+                var canvas = document.getElementById("myCanvas"); 
+                var context = canvas.getContext("2d"); 
+                var startX = 50;  
+                var startY = 50;  
+                var size   = 100; 
+                context.lineWidth = 2; 
+                draw_arrow(context, startX, startY, size); 
+            }; 
+        </script> 
+    </head> 
+    <body onmousedown="return false;"> 
+        <canvas id="myCanvas" width="578" height="200"> 
+        </canvas> 
+
+    </body> 
+</html> 

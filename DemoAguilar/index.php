@@ -11,10 +11,11 @@
         <script>
 
             window.onload = function () {
-                var canvas = Raphael( 10, 10, 500, 500 );
+                var canvas = Raphael( 10, 10, 600, 600 );
+                SAguilar.paintMenu(canvas);
                 var pathstr =  "M0,0 Q50,50,100,30 Q25,80,100,100 Q150,150,200,50";
                 var path = drawline_withArrow( canvas, pathstr, 4000, 
-                    { stroke: 'blue', 'stroke-width': 8, 'fill-opacity': 0 } );
+                    { stroke: 'blue', 'stroke-width': 2, 'fill-opacity': 0 } );
                 //canvas.arrow(30,30,50,50,{ stroke: 'black', 'stroke-width': 8, 'fill-opacity': 0 });
             }
         </script>

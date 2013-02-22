@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Raphaël · Roundabout</title>
+
+        <style>
+            #holder {
+                position: absolute;
+            }
+            img{
+                position: absolute;
+            }
+            svg{
+                position: absolute;
+            }
+        </style>
+	<script type="text/javascript" src="script/jquery-1.8.3.min.js"></script>
+	<!-- Inclusione ImageMapster -->
+	<script type="text/javascript" src="script/jquery.imagemapster.min.js"></script>
+        <script charset="utf-8" type="text/javascript" src="script/raphael-min.js"></script>
+        <script charset="utf-8" type="text/javascript">
+            $(document).ready(function () {
+                // bind using "data-key" as a mapKey, and select four states
+                $('#europe-old').mapster({
+                    mapKey: 'alt',
+                    fillColor: 'ff0000',
+                    fillOpacity: 0.3
+                });
+                var canvas = Raphael( 0,0, 900, 1000 );
+
+                var pathstr = [
+                    ["M",678,76], ["L",654,60],["L",641,57],[ 587,43],[ 560,43],[ 533,46],
+                    [491,61],[ 464,76 ],[446,94 ],[435,113],[ 425,139],[ 418,163 ],
+                    [413,196],[ 408,223 ],[407,257],[ 409,278],[ 411,296],[ 414,316],
+                    [424,345],[ 435,378],[ 442,384]];
+                var pathstr2 = [
+                    ["M",330,123],[319,122],[295,129],[282,141],[253,153],[233,171],
+                    [221,202],[225,245],[246,291],[263,315],[283,331],[309,339],[339,348],
+                    [353,377],[366,387],[371,391],[397,400],[410,414],[421,431],[430,453],
+                    [449,463]
+                ];
+                var pathstr3 = [
+                    ["M",60,437],[62,434],[72,423],[82,412],[95,397],[117,383],[130,379],[160,375],[207,377],
+                    [312,393],[342,399],[361,408],[379,422],[405,439],[413,453],[419,466],[423,474]
+                    
+                ];
+
+                var path = canvas.path( pathstr ).attr({ stroke: 'black', 'stroke-width': 8, 'fill-opacity': 0 });
+                path.hover( 
+                    function() { path.animate( { transform: "S1.3,1.3,100,100" }, 1000 ); },
+                    function() { path.animate( { transform: "S1.0,1.0,100,100" }, 1000 ) } 
+                );
+                
+                var path2 = canvas.path( pathstr2 ).attr({ stroke: 'black', 'stroke-width': 8, 'fill-opacity': 0 });
+                var path3 = canvas.path( pathstr3 ).attr({ stroke: 'black', 'stroke-width': 8, 'fill-opacity': 0 });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="holder">
+        </div>
+        <img id="europe-old" src="image/Untitled-1.png" usemap="#map"/>
+        <map name="map">
+            <!-- #$-:Image map file created by GIMP Image Map plug-in -->
+            <!-- #$-:GIMP Image Map plug-in by Maurits Rijk -->
+            <!-- #$-:Please do not edit lines starting with "#$" -->
+            <!-- #$VERSION:2.3 -->
+            <!-- #$AUTHOR:Mimmo PC -->
+            <area alt="area1" shape="poly" coords="678,76,654,60,641,57,587,43,560,43,533,46,491,61,464,76,446,94,435,113,425,139,418,163,413,196,408,223,407,257,409,278,411,296,414,316,424,345,435,378,442,384"  href="#" />
+            <area alt="area2" shape="poly" coords="330,123,319,122,295,129,282,141,253,153,233,171,221,202,225,245,246,291,263,315,283,331,309,339,339,348,353,377,366,387,371,391,397,400,410,414,421,431,430,453,449,463"  href="#" />
+            <area alt="area3" shape="poly" coords="60,437,62,434,72,423,82,412,95,397,117,383,130,379,160,375,207,377,312,393,342,399,361,408,379,422,405,439,413,453,419,466,423,474"  href="href" />
+        </map>
+    </body>
+</html>

@@ -38,7 +38,7 @@
                     var end = guide_path.getTotalLength(), bend = end - end/10,
                         pend = guide_path.getPointAtLength(end),
                         pbend = guide_path.getPointAtLength(bend),
-                        endArrow = canvas.arrow(pbend.x,pbend.y, pend.x,pend.y);
+                        endArrow = canvas.arrow(pbend.x,pbend.y, pend.x,pend.y,attr);
                     var st = canvas.set();
                     st.push(guide_path,endArrow);
                     //st.attr( { stroke: "none", fill: "none" } );
@@ -60,7 +60,7 @@
                         }                                       
                     }, interval_length );  
         
-                    return path;    
+                    return st;    
 
                 }
                 
@@ -96,12 +96,12 @@
                     ctx.path().attr({transform: "r" + angle + " " + x + " " + y});
                 }
 */
-            Raphael.fn.arrow = function (x, y, xf,yf) {
+            Raphael.fn.arrow = function (x, y, xf,yf,attr) {
                 //var pathstr = "m-1-1l0-6 10,10 -10,10 0-6z";
+                if(!attr) attr = {fill: "#fff", stroke: "none", "stroke-dasharray": "-", "fill-opacity": 0.2};
                 var arrowPath = "M15.834,29.084 15.834,16.166 2.917,16.166 29.083,2.917z";
                 var angle = (180/Math.PI) * Math.atan((yf - y) / (xf - x));
-                var origPath = this.path(arrowPath).attr(
-                    {fill: "#fff", stroke: "none", "stroke-dasharray": "-", "fill-opacity": 0.2});
+                var origPath = this.path(arrowPath).attr(attr);
                     origPath.transform([["t",xf-14.834,yf-20.084],["r",angle],["r",45]]);
                 return origPath;
             };

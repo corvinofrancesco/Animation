@@ -1,0 +1,25 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="script/buzz.js" ></script>
+        <script type="text/javascript" >
+            window.onload = function(){
+                var mySound = new buzz.sound("assets/Humm",{formats: ["ogg","mp3"]});
+                mySound.play().fadeIn().loop().bind("timeupdate",function(){
+                    var timer = buzz.toTimer(this.getTime());
+                    document.getElementById("timer").innerHTML = timer;
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <div>TODO write content</div>
+        <div id="timer"></div>
+    </body>
+</html>

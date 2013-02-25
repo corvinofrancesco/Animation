@@ -9,19 +9,32 @@
         <script type="text/javascript" src="resources/scripts/raphael-min.js" ></script>
         <script type="text/javascript" src="resources/scripts/arrows.raphael.js" ></script>
         <script>
+            var actions = [
+                {
+                    arrow: "M0,0 Q50,50,100,30 Q25,80,100,100 Q150,150,200,50",
+                    description: "Azione 1: Freccia dall'irlanda -> britannia -> mare;"
+                },
+                {
+                    arrow: "M30,100 Q50,50,100,30 Q25,80,100,100 Q150,150,200,50",
+                    description: "Azione 2: Freccia casuale;"
+                }
+                
+            ];
 
-            window.onload = function () {
-                var canvas = Raphael( 10, 10, 600, 600 );
-                SAguilar.paintMenu(canvas);
+            $(document).ready(function () {
+                SAguilar.init({descriptions:"#descriptions", slides: actions});
+                SAguilar.addSlides(actions);
+                SAguilar.runAction("play");
                 var pathstr =  "M0,0 Q50,50,100,30 Q25,80,100,100 Q150,150,200,50";
-                var path = drawline_withArrow( canvas, pathstr, 4000, 
+                var path = drawline_withArrow( SAguilar.canvas, pathstr, 4000, 
                     { stroke: 'blue', 'stroke-width': 2, 'fill-opacity': 0 } );
                 //canvas.arrow(30,30,50,50,{ stroke: 'black', 'stroke-width': 8, 'fill-opacity': 0 });
-            }
+            });
         </script>
     </head>
     <body>
         <div></div>
         <div><img src="resources/images/map.png" height="60%" width="40%"/></div>
+        <div id="descriptions" style="top:0px;left:50%;position:absolute"></div>
     </body>
 </html>

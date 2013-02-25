@@ -56,15 +56,47 @@
     }
     
     
-var SAguilar = {};
-SAguilar.icons = {
-                "play": "M6.684,25.682L24.316,15.5L6.684,5.318V25.682z",
-                "stop": "M5.5,5.5h20v20h-20z",
-                "pause": "M26,27.5H6c-0.829,0-1.5-0.672-1.5-1.5V6c0-0.829,0.671-1.5,1.5-1.5h20c0.828,0,1.5,0.671,1.5,1.5v20C27.5,26.828,26.828,27.5,26,27.5zM7.5,24.5h17v-17h-17V24.5z",
-                "next": "M25.5,15.5,15.2,9.552,15.2,15.153,5.5,9.552,5.5,21.447,15.2,15.847,15.2,21.447z",
-                "prec": "M5.5,15.499,15.8,21.447,15.8,15.846,25.5,21.447,25.5,9.552,15.8,15.152,15.8,9.552z",
-                "full-screen":"M25.083,18.895l-8.428-2.259l2.258,8.428l1.838-1.837l7.053,7.053l2.476-2.476l-7.053-7.053L25.083,18.895zM5.542,11.731l8.428,2.258l-2.258-8.428L9.874,7.398L3.196,0.72L0.72,3.196l6.678,6.678L5.542,11.731zM7.589,20.935l-6.87,6.869l2.476,2.476l6.869-6.869l1.858,1.857l2.258-8.428l-8.428,2.258L7.589,20.935zM23.412,10.064l6.867-6.87l-2.476-2.476l-6.868,6.869l-1.856-1.856l-2.258,8.428l8.428-2.259L23.412,10.064z"
-            };
+var SAguilar = {
+    descriptionElem: "#descriptions",
+    icons: {
+        "play": "M6.684,25.682L24.316,15.5L6.684,5.318V25.682z",
+        "stop": "M5.5,5.5h20v20h-20z",
+        "pause": "M26,27.5H6c-0.829,0-1.5-0.672-1.5-1.5V6c0-0.829,0.671-1.5,1.5-1.5h20c0.828,0,1.5,0.671,1.5,1.5v20C27.5,26.828,26.828,27.5,26,27.5zM7.5,24.5h17v-17h-17V24.5z",
+        "next": "M25.5,15.5,15.2,9.552,15.2,15.153,5.5,9.552,5.5,21.447,15.2,15.847,15.2,21.447z",
+        "prec": "M5.5,15.499,15.8,21.447,15.8,15.846,25.5,21.447,25.5,9.552,15.8,15.152,15.8,9.552z",
+        "full-screen":"M25.083,18.895l-8.428-2.259l2.258,8.428l1.838-1.837l7.053,7.053l2.476-2.476l-7.053-7.053L25.083,18.895zM5.542,11.731l8.428,2.258l-2.258-8.428L9.874,7.398L3.196,0.72L0.72,3.196l6.678,6.678L5.542,11.731zM7.589,20.935l-6.87,6.869l2.476,2.476l6.869-6.869l1.858,1.857l2.258-8.428l-8.428,2.258L7.589,20.935zM23.412,10.064l6.867-6.87l-2.476-2.476l-6.868,6.869l-1.856-1.856l-2.258,8.428l8.428-2.259L23.412,10.064z"
+    },
+    currentSlide: 0
+    
+};
+            
+SAguilar.actions = {
+    play: function(){
+        SAguilar.currentSlide = 0;
+        
+    },
+    next: function(){
+        if(SAguilar.currentSlide < SAguilar.slides.length){
+            SAguilar.actions.view(SAguilar.currentSlide);
+            SAguilar.currentSlide++;
+        }
+    },
+    view: function(i){
+        if(SAguilar.slides[i]){
+            var p = SAguilar.slides[i];
+            if(p.description){
+                // aggiunge la descrizione
+                $(SAguilar.descriptionElem).append(p.description);
+            }
+            if(p.arrow){
+                // visualizza la freccia
+                drawline_withArrow( 
+                    SAguilar.canvas, p.arrow, 4000, 
+                    { stroke: 'blue', 'stroke-width': 2, 'fill-opacity': 0 } );                
+            }
+        }
+    }
+};
 
 SAguilar.paintMenu = function(canvas){
     var diff = 0, buttons =[],j=0;
@@ -72,6 +104,7 @@ SAguilar.paintMenu = function(canvas){
     for(var i in SAguilar.icons){
         buttons[j] = canvas.rect(initx + diff -2, inity -2, 40,40, 5).attr({stroke:8,"stroke-width":1,fill:"#fff"});
         buttons[j].icon = canvas.path(SAguilar.icons[i]).transform(["t", initx + diff,inity]);
+        buttons[j].iconName = i;
         
         diff += 50;
         buttons[j].hover( 
@@ -80,9 +113,29 @@ SAguilar.paintMenu = function(canvas){
         );
         buttons[j].click(
             function(){
-                
+                // esegue l'azione aggiungere effetti di feed-back
+                SAguilar.runAction(this.iconName);
             }
         );    
         j++;
     }
+};
+
+SAguilar.runAction = function(nameAction){
+    //alert(nameAction);
+    SAguilar.actions[nameAction]();
+}
+
+
+SAguilar.addSlides = function(slides){
+    for(var slide in slides) {
+        SAguilar.slides.push(slides[slide]);
+    }
+}
+
+SAguilar.init = function(configs){
+    SAguilar.canvas = Raphael( 10, 10, 600, 600 );
+    SAguilar.paintMenu(SAguilar.canvas);    
+    if(configs.descriptions) SAguilar.descriptionElem = configs.descriptions;
+    SAguilar.slides = [];
 }

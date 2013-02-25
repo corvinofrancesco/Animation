@@ -58,6 +58,7 @@
     
 var SAguilar = {
     descriptionElem: "#descriptions",
+    timeToNext: 5000,
     icons: {
         "play": "M6.684,25.682L24.316,15.5L6.684,5.318V25.682z",
         "stop": "M5.5,5.5h20v20h-20z",
@@ -66,35 +67,60 @@ var SAguilar = {
         "prec": "M5.5,15.499,15.8,21.447,15.8,15.846,25.5,21.447,25.5,9.552,15.8,15.152,15.8,9.552z",
         "full-screen":"M25.083,18.895l-8.428-2.259l2.258,8.428l1.838-1.837l7.053,7.053l2.476-2.476l-7.053-7.053L25.083,18.895zM5.542,11.731l8.428,2.258l-2.258-8.428L9.874,7.398L3.196,0.72L0.72,3.196l6.678,6.678L5.542,11.731zM7.589,20.935l-6.87,6.869l2.476,2.476l6.869-6.869l1.858,1.857l2.258-8.428l-8.428,2.258L7.589,20.935zM23.412,10.064l6.867-6.87l-2.476-2.476l-6.868,6.869l-1.856-1.856l-2.258,8.428l8.428-2.259L23.412,10.064z"
     },
-    currentSlide: 0
+    currentSlide: 0,
+    print: function(description){
+        // aggiunge la descrizione
+        $(SAguilar.descriptionElem).append("<p class='SAPrints'>"+description +"</p>");        
+    },
+    arrow: function(pathstr, attr){
+        return drawline_withArrow( SAguilar.canvas, pathstr, 4000,attr);        
+    },
+    area: function(pathstr,attr){
+        SAguilar.canvas.path( pathstr ).attr(attr).animate({"fill":"none","stroke":"none"}, 2000);
+    }
     
 };
             
 SAguilar.actions = {
     play: function(){
-        SAguilar.currentSlide = 0;
-        
+        // controlla se c'è una posizione valida per le slide
+        if(!SAguilar.currentSlide || SAguilar.currentSlide>=SAguilar.slides.length)
+                SAguilar.currentSlide = 0;
+        SAguilar.currentSlide++;
+        //alert(SAguilar.currentSlide  + "  " + SAguilar.slides.length);
+        // controlla se è l'ultima slide
+        if(SAguilar.currentSlide >= SAguilar.slides.length){
+        // esegue la slide senza callback
+            setTimeout(
+                SAguilar.slides[SAguilar.currentSlide-1].play(),
+                SAguilar.timeToNext );
+            return;
+        }
+        // esegue la slide e imposta se stessa come callback
+        setTimeout(
+        SAguilar.slides[SAguilar.currentSlide-1].play(
+            SAguilar.actions.play),SAguilar.timeToNext);
     },
     next: function(){
-        if(SAguilar.currentSlide < SAguilar.slides.length){
-            SAguilar.actions.view(SAguilar.currentSlide);
-            SAguilar.currentSlide++;
-        }
+        // controlla se c'è una posizione valida per le slide
+        if(!SAguilar.currentSlide || SAguilar.currentSlide >= SAguilar.slides.length)
+                SAguilar.currentSlide = 0;
+        // esegue la slide senza callback
+        SAguilar.slides[SAguilar.currentSlide].play();
+        SAguilar.currentSlide++;
     },
-    view: function(i){
-        if(SAguilar.slides[i]){
-            var p = SAguilar.slides[i];
-            if(p.description){
-                // aggiunge la descrizione
-                $(SAguilar.descriptionElem).append(p.description);
-            }
-            if(p.arrow){
-                // visualizza la freccia
-                drawline_withArrow( 
-                    SAguilar.canvas, p.arrow, 4000, 
-                    { stroke: 'blue', 'stroke-width': 2, 'fill-opacity': 0 } );                
-            }
-        }
+    prec: function(){
+        // controlla se c'è una posizione valida per le slide
+        if(!SAguilar.currentSlide || SAguilar.currentSlide<= 0){
+                SAguilar.currentSlide = 0;return;};
+        if(SAguilar.slides[SAguilar.currentSlide]){
+            SAguilar.slides[SAguilar.currentSlide].goback();                       
+        }    
+        SAguilar.currentSlide--;
+        if(SAguilar.slides[SAguilar.currentSlide]){
+            // esegue la slide senza callback
+            SAguilar.slides[SAguilar.currentSlide].play();           
+        }            
     }
 };
 
@@ -108,8 +134,8 @@ SAguilar.paintMenu = function(canvas){
         
         diff += 50;
         buttons[j].hover( 
-            function() { this.icon.animate( {"stroke-width":2}, 500 ); },
-            function() { this.icon.animate( {"stroke-width":1}, 500 ) } 
+            function() {this.icon.animate( {"stroke-width":2}, 500 );},
+            function() {this.icon.animate( {"stroke-width":1}, 500 )} 
         );
         buttons[j].click(
             function(){

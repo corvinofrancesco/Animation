@@ -32,3 +32,9 @@ root {
     margin: 5px;
     width: 250px;    
 }
+
+#descriptions {
+    top:0px;
+    right: 0px;
+    position:absolute;
+}

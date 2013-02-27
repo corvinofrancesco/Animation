@@ -27,7 +27,6 @@ root {
 
 .SAPrints {
     border: 8px double navy;
-    left: 50%;
     padding: 5px;
     margin: 5px;
     width: 250px;    
@@ -35,6 +34,6 @@ root {
 
 #descriptions {
     top:0px;
-    right: 0px;
+    right: 40px;
     position:absolute;
 }

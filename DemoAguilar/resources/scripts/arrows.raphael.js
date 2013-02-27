@@ -115,7 +115,7 @@ var SAguilar = {
         }
     },
     init: function(configs){
-        SAguilar.canvas = Raphael( 10, 10, SAguilar.width + 10, SAguilar.height + 10);
+        SAguilar.canvas = Raphael( "holder",SAguilar.width + 10, SAguilar.height + 10);
         SAguilar.paintMenu(SAguilar.canvas);    
         if(configs.descriptions) SAguilar.descriptionElem = configs.descriptions;
         SAguilar.slides = [];
@@ -160,26 +160,30 @@ var SAguilar = {
     reset: function(){
         SAguilar.canvas.clear();
         SAguilar.paintMenu(SAguilar.canvas);
+        SAguilar.lpanel.reset();
     }
     
 };
             
 SAguilar.actions = {
+    _goToInit: function(){
+        // se non lo è riporta all'inizio
+        SAguilar.currentSlide = 0;       
+        SAguilar.reset();        
+    },
     play: function(){
         // sincronizza le azioni (indica avvio d'esecuzione)
         SAguilar.lastAction = "play";        
         // controlla se c'è una posizione valida per le slide
-        if(!SAguilar.currentSlide || SAguilar.currentSlide>=SAguilar.slides.length){
-            // se non lo è riporta all'inizio
-            SAguilar.currentSlide = 0;       
-            SAguilar.reset();
-        }
+        if(!SAguilar.currentSlide || SAguilar.currentSlide>=SAguilar.slides.length)
+            SAguilar.actions._goToInit();
+        SAguilar.lpanel.next();
         SAguilar.currentSlide++;
         // controlla se è l'ultima slide
         if(SAguilar.currentSlide >= SAguilar.slides.length){
             // sincronizza le azioni (interrompe il play)
             SAguilar.lastAction = "stop";
-            return;
+            //return;
         }
         SAguilar.slides[SAguilar.currentSlide-1].play();
     },
@@ -187,12 +191,13 @@ SAguilar.actions = {
         // sincronizza le azioni (interrompe il play e va alla slide successiva)
         // controlla se c'è una posizione valida per le slide
         if(!SAguilar.currentSlide || SAguilar.currentSlide >= SAguilar.slides.length){
-            SAguilar.currentSlide = 0;
+            SAguilar.actions._goToInit();
             SAguilar.lastAction = "stop";            
             return;
         }
         // esegue la slide senza callback
         SAguilar.slides[SAguilar.currentSlide].play();
+        SAguilar.lpanel.next();
         SAguilar.currentSlide++;
     },
     prec: function(){
@@ -200,12 +205,14 @@ SAguilar.actions = {
         // controlla se c'è una posizione valida per le slide
         if(!SAguilar.currentSlide || SAguilar.currentSlide<= 0){
             SAguilar.currentSlide = 0;
-            SAguilar.lastAction = "stop";            
+            SAguilar.lastAction = "stop";     
+            SAguilar.reset();
             return;
         }
         if(SAguilar.slides[SAguilar.currentSlide]){
             SAguilar.slides[SAguilar.currentSlide].goback();                       
         }    
+        SAguilar.lpanel.back();
         SAguilar.currentSlide--;
         if(SAguilar.slides[SAguilar.currentSlide]){
             // esegue la slide senza callback

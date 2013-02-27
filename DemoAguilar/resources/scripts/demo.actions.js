@@ -37,41 +37,28 @@ var actions = [
         description: "Diverse popolazioni si spingono verso l'Impero Romano, da oriente arrivano Visigoti e Unni.",
         play: function(){
             SAguilar.arrow(DemoSA.pathstr1,{ stroke: 'black', 'stroke-width': 4, 'fill-opacity': 0 });
-        },
-        goback: function(){},
-        stop:function(){},
-        clear:function(){}
+        }
 
     },
     {
         description: "Azione 2: Freccia casuale;",
-        play: function(){
-            SAguilar.arrow(DemoSA.pathstr2,{ stroke: 'blue', 'stroke-width': 8, 'fill-opacity': 0 });
-        },
-        goback: function(){},
-        stop:function(){},
-        clear:function(){}
-
+        elements : {
+            freccia1:{type:"arrow", params:{path:DemoSA.pathstr2,attr:{ stroke: 'blue', 'stroke-width': 8, 'fill-opacity': 0 }}}
+        }
     },
     {
         description: "Azione 3: Freccia casuale;",
         play: function(){
             SAguilar.arrow(DemoSA.pathstr3,{ stroke: 'red', 'stroke-width': 8, 'fill-opacity': 0 });
-        },
-        goback: function(){},
-        stop:function(){},
-        clear:function(){}
+        }
 
     },
     {
         description: "Azione 5: ",
         play: function(){
             var pathstr =  "M350,150 L50,80 150,330";
-            SAguilar.area(pathstr,{ fill: 'red', 'fill-opacity': 0 });
-        },
-        goback: function(){},
-        stop:function(){},
-        clear:function(){}
+            SAguilar.area(pathstr,{ fill: 'red' });
+        }
 
     }
 
